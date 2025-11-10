@@ -12,7 +12,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { format } from "date-fns";
-import { CalendarIcon, Check, ChevronRight } from "lucide-react";
+import { CalendarIcon, Check, ChevronRight, Loader2, MessageCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 
@@ -44,6 +44,8 @@ type FormData = z.infer<typeof formSchema>;
 const BookingForm = () => {
   const [step, setStep] = useState(1);
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [bookingData, setBookingData] = useState<FormData | null>(null);
 
   const {
     register,
@@ -53,19 +55,141 @@ const BookingForm = () => {
     watch,
   } = useForm<FormData>({
     resolver: zodResolver(formSchema),
+    defaultValues: {
+      kidsMeals: [],
+      adultCatering: "none",
+    },
   });
 
   const watchedValues = watch();
   const totalSteps = 6;
 
-  const onSubmit = (data: FormData) => {
-    console.log("Form submitted:", data);
-    // Here you would send the data to your backend or email service
-    toast.success("Booking request submitted! We'll contact you via WhatsApp within 24 hours.");
-    setSubmitted(true);
+  const getPackageName = (pkg: string) => {
+    switch (pkg) {
+      case "option1":
+        return "Option 1 - R5,500 (1-15 kids)";
+      case "option2":
+        return "Option 2 - R8,500 (16-25 kids)";
+      case "option3":
+        return "Option 3 - R10,000 (16-25 kids, premium)";
+      default:
+        return pkg;
+    }
   };
 
-  if (submitted) {
+  const getAdultCateringName = (catering?: string) => {
+    switch (catering) {
+      case "option1":
+        return "Option 1 - R100pp (4 savoury + 4 sweet)";
+      case "option2":
+        return "Option 2 - R130pp (6 savoury + 4 sweet)";
+      case "none":
+      default:
+        return "No adult catering";
+    }
+  };
+
+  const sendToWhatsApp = (data: FormData) => {
+    const message = `🎈 *New Party Booking Request*
+
+👤 *Contact Details:*
+Name: ${data.fullName}
+Phone: ${data.phone}
+Email: ${data.email}
+
+🎂 *Party Details:*
+Child's Name: ${data.childName}
+Child's Age: ${data.childAge}
+Date: ${format(data.partyDate, "PPP")}
+Time: ${data.timeSlot === "morning" ? "09:00-12:00" : "13:30-16:30"}
+Theme: ${data.theme}
+
+👥 *Guests:*
+Children: ${data.numChildren}
+Adults: ${data.numAdults}
+
+📦 *Package:*
+${getPackageName(data.package)}
+
+🍽️ *Meals:*
+Kids Meals: ${data.kidsMeals.join(", ")}
+Adult Catering: ${getAdultCateringName(data.adultCatering)}
+
+${data.additionalInfo ? `📝 *Additional Info:*\n${data.additionalInfo}` : ""}`;
+
+    const encodedMessage = encodeURIComponent(message);
+    const whatsappUrl = `https://wa.me/27YOURPHONENUMBER?text=${encodedMessage}`;
+    window.open(whatsappUrl, "_blank");
+  };
+
+  const sendToEmail = async (data: FormData) => {
+    // Using FormSubmit.co - a free form backend
+    const formData = new FormData();
+    formData.append("_subject", `New Party Booking - ${data.childName}'s Birthday`);
+    formData.append("_template", "table");
+    formData.append("Full Name", data.fullName);
+    formData.append("Phone", data.phone);
+    formData.append("Email", data.email);
+    formData.append("Child's Name", data.childName);
+    formData.append("Child's Age", data.childAge);
+    formData.append("Party Date", format(data.partyDate, "PPP"));
+    formData.append("Time Slot", data.timeSlot === "morning" ? "09:00-12:00" : "13:30-16:30");
+    formData.append("Theme", data.theme);
+    formData.append("Number of Children", data.numChildren);
+    formData.append("Number of Adults", data.numAdults);
+    formData.append("Package", getPackageName(data.package));
+    formData.append("Kids Meals", data.kidsMeals.join(", "));
+    formData.append("Adult Catering", getAdultCateringName(data.adultCatering));
+    if (data.additionalInfo) {
+      formData.append("Additional Information", data.additionalInfo);
+    }
+
+    try {
+      // Replace 'YOUR_EMAIL' with your actual email address
+      const response = await fetch("https://formsubmit.co/ajax/info@codeux.co.za", {
+        method: "POST",
+        body: formData,
+        headers: {
+          Accept: "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to send email");
+      }
+
+      return true;
+    } catch (error) {
+      console.error("Email error:", error);
+      return false;
+    }
+  };
+
+  const onSubmit = async (data: FormData) => {
+    setIsSubmitting(true);
+    setBookingData(data);
+
+    try {
+      // Try to send email
+      const emailSent = await sendToEmail(data);
+
+      if (emailSent) {
+        toast.success("Booking request sent successfully!");
+      } else {
+        toast.info("Opening WhatsApp to complete your booking...");
+      }
+
+      setSubmitted(true);
+    } catch (error) {
+      console.error("Submission error:", error);
+      toast.error("There was an issue. We'll open WhatsApp as a backup.");
+      setSubmitted(true);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  if (submitted && bookingData) {
     return (
       <Card className="max-w-2xl mx-auto">
         <CardContent className="p-12 text-center">
@@ -74,12 +198,28 @@ const BookingForm = () => {
           </div>
           <h2 className="text-3xl font-bold mb-4">Thank You!</h2>
           <p className="text-lg text-muted-foreground mb-6">
-            Your booking request has been sent successfully.
+            Your booking request has been received!
           </p>
-          <p className="text-muted-foreground mb-8">
-            We'll confirm availability via WhatsApp within 24 hours.
+          
+          {/* WhatsApp Backup Option */}
+          <div className="bg-muted/50 p-6 rounded-lg mb-6">
+            <p className="text-sm text-muted-foreground mb-4">
+              Want to confirm immediately via WhatsApp?
+            </p>
+            <Button
+              onClick={() => sendToWhatsApp(bookingData)}
+              className="bg-[#25D366] hover:bg-[#20BA5A] gap-2"
+            >
+              <MessageCircle size={20} />
+              Send via WhatsApp
+            </Button>
+          </div>
+
+          <p className="text-sm text-muted-foreground mb-8">
+            We'll confirm your booking within 24 hours via email or phone.
           </p>
-          <Button onClick={() => window.location.reload()}>
+          
+          <Button variant="outline" onClick={() => window.location.reload()}>
             Submit Another Booking
           </Button>
         </CardContent>
@@ -186,6 +326,7 @@ const BookingForm = () => {
                     <Popover>
                       <PopoverTrigger asChild>
                         <Button
+                          type="button"
                           variant="outline"
                           className={cn(
                             "w-full justify-start text-left font-normal",
@@ -376,7 +517,7 @@ const BookingForm = () => {
                   <div>
                     <Label>Adult Catering (Optional)</Label>
                     <RadioGroup
-                      value={watchedValues.adultCatering}
+                      value={watchedValues.adultCatering || "none"}
                       onValueChange={(value) => setValue("adultCatering", value as any)}
                       className="space-y-2 mt-2"
                     >
@@ -435,7 +576,13 @@ const BookingForm = () => {
                     </span>
                     
                     <span className="text-muted-foreground">Package:</span>
-                    <span className="font-medium">{watchedValues.package?.toUpperCase()}</span>
+                    <span className="font-medium">{getPackageName(watchedValues.package || "")}</span>
+
+                    <span className="text-muted-foreground">Kids Meals:</span>
+                    <span className="font-medium">{watchedValues.kidsMeals?.join(", ") || "None"}</span>
+
+                    <span className="text-muted-foreground">Adult Catering:</span>
+                    <span className="font-medium">{getAdultCateringName(watchedValues.adultCatering)}</span>
                   </div>
                 </div>
                 
@@ -458,6 +605,7 @@ const BookingForm = () => {
                   type="button"
                   variant="outline"
                   onClick={() => setStep(step - 1)}
+                  disabled={isSubmitting}
                 >
                   Back
                 </Button>
@@ -473,9 +621,18 @@ const BookingForm = () => {
                     <ChevronRight size={16} />
                   </Button>
                 ) : (
-                  <Button type="submit" className="gap-2">
-                    Submit Booking Request
-                    <Check size={16} />
+                  <Button type="submit" className="gap-2" disabled={isSubmitting}>
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 size={16} className="animate-spin" />
+                        Sending...
+                      </>
+                    ) : (
+                      <>
+                        Submit Booking
+                        <Check size={16} />
+                      </>
+                    )}
                   </Button>
                 )}
               </div>
