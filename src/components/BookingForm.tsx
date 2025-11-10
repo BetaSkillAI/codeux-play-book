@@ -1,0 +1,490 @@
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Card, CardContent } from "@/components/ui/card";
+import { Calendar } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { format } from "date-fns";
+import { CalendarIcon, Check, ChevronRight } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { toast } from "sonner";
+
+const formSchema = z.object({
+  fullName: z.string().min(2, "Name must be at least 2 characters"),
+  phone: z.string().min(10, "Please enter a valid phone number"),
+  email: z.string().email("Please enter a valid email"),
+  childName: z.string().min(2, "Child's name is required"),
+  childAge: z.string().min(1, "Age is required"),
+  partyDate: z.date({
+    required_error: "Please select a date",
+  }),
+  theme: z.string().min(2, "Theme is required"),
+  timeSlot: z.enum(["morning", "afternoon"], {
+    required_error: "Please select a time slot",
+  }),
+  numChildren: z.string().min(1, "Number of children is required"),
+  numAdults: z.string().min(1, "Number of adults is required"),
+  package: z.enum(["option1", "option2", "option3"], {
+    required_error: "Please select a package",
+  }),
+  kidsMeals: z.array(z.string()).min(1, "Select at least one kids meal"),
+  adultCatering: z.enum(["none", "option1", "option2"]).optional(),
+  additionalInfo: z.string().optional(),
+});
+
+type FormData = z.infer<typeof formSchema>;
+
+const BookingForm = () => {
+  const [step, setStep] = useState(1);
+  const [submitted, setSubmitted] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+    watch,
+  } = useForm<FormData>({
+    resolver: zodResolver(formSchema),
+  });
+
+  const watchedValues = watch();
+  const totalSteps = 6;
+
+  const onSubmit = (data: FormData) => {
+    console.log("Form submitted:", data);
+    // Here you would send the data to your backend or email service
+    toast.success("Booking request submitted! We'll contact you via WhatsApp within 24 hours.");
+    setSubmitted(true);
+  };
+
+  if (submitted) {
+    return (
+      <Card className="max-w-2xl mx-auto">
+        <CardContent className="p-12 text-center">
+          <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
+            <Check className="text-primary" size={48} />
+          </div>
+          <h2 className="text-3xl font-bold mb-4">Thank You!</h2>
+          <p className="text-lg text-muted-foreground mb-6">
+            Your booking request has been sent successfully.
+          </p>
+          <p className="text-muted-foreground mb-8">
+            We'll confirm availability via WhatsApp within 24 hours.
+          </p>
+          <Button onClick={() => window.location.reload()}>
+            Submit Another Booking
+          </Button>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  return (
+    <div className="max-w-3xl mx-auto">
+      {/* Progress Bar */}
+      <div className="mb-8">
+        <div className="flex items-center justify-between mb-2">
+          {Array.from({ length: totalSteps }).map((_, i) => (
+            <div
+              key={i}
+              className={cn(
+                "flex-1 h-2 rounded-full mx-1 transition-all",
+                i + 1 <= step ? "bg-primary" : "bg-muted"
+              )}
+            />
+          ))}
+        </div>
+        <p className="text-sm text-muted-foreground text-center">
+          Step {step} of {totalSteps}
+        </p>
+      </div>
+
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Card>
+          <CardContent className="p-6">
+            {/* Step 1: Personal Details */}
+            {step === 1 && (
+              <div className="space-y-6">
+                <h3 className="text-2xl font-bold">Personal Details</h3>
+                <div className="space-y-4">
+                  <div>
+                    <Label htmlFor="fullName">Full Name *</Label>
+                    <Input
+                      id="fullName"
+                      {...register("fullName")}
+                      placeholder="Your full name"
+                    />
+                    {errors.fullName && (
+                      <p className="text-sm text-destructive mt-1">{errors.fullName.message}</p>
+                    )}
+                  </div>
+                  <div>
+                    <Label htmlFor="phone">Phone Number *</Label>
+                    <Input
+                      id="phone"
+                      {...register("phone")}
+                      placeholder="+27 XX XXX XXXX"
+                    />
+                    {errors.phone && (
+                      <p className="text-sm text-destructive mt-1">{errors.phone.message}</p>
+                    )}
+                  </div>
+                  <div>
+                    <Label htmlFor="email">Email *</Label>
+                    <Input
+                      id="email"
+                      type="email"
+                      {...register("email")}
+                      placeholder="your.email@example.com"
+                    />
+                    {errors.email && (
+                      <p className="text-sm text-destructive mt-1">{errors.email.message}</p>
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Step 2: Party Details */}
+            {step === 2 && (
+              <div className="space-y-6">
+                <h3 className="text-2xl font-bold">Party Details</h3>
+                <div className="space-y-4">
+                  <div>
+                    <Label htmlFor="childName">Child's Name *</Label>
+                    <Input
+                      id="childName"
+                      {...register("childName")}
+                      placeholder="Birthday child's name"
+                    />
+                    {errors.childName && (
+                      <p className="text-sm text-destructive mt-1">{errors.childName.message}</p>
+                    )}
+                  </div>
+                  <div>
+                    <Label htmlFor="childAge">Child's Age *</Label>
+                    <Input
+                      id="childAge"
+                      type="number"
+                      {...register("childAge")}
+                      placeholder="Age"
+                    />
+                    {errors.childAge && (
+                      <p className="text-sm text-destructive mt-1">{errors.childAge.message}</p>
+                    )}
+                  </div>
+                  <div>
+                    <Label>Party Date *</Label>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <Button
+                          variant="outline"
+                          className={cn(
+                            "w-full justify-start text-left font-normal",
+                            !watchedValues.partyDate && "text-muted-foreground"
+                          )}
+                        >
+                          <CalendarIcon className="mr-2 h-4 w-4" />
+                          {watchedValues.partyDate ? (
+                            format(watchedValues.partyDate, "PPP")
+                          ) : (
+                            <span>Pick a date</span>
+                          )}
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0" align="start">
+                        <Calendar
+                          mode="single"
+                          selected={watchedValues.partyDate}
+                          onSelect={(date) => setValue("partyDate", date as Date)}
+                          disabled={(date) => date < new Date()}
+                          initialFocus
+                          className="pointer-events-auto"
+                        />
+                      </PopoverContent>
+                    </Popover>
+                    {errors.partyDate && (
+                      <p className="text-sm text-destructive mt-1">{errors.partyDate.message}</p>
+                    )}
+                  </div>
+                  <div>
+                    <Label htmlFor="theme">Party Theme *</Label>
+                    <Input
+                      id="theme"
+                      {...register("theme")}
+                      placeholder="e.g., Princess, Superhero, Safari"
+                    />
+                    {errors.theme && (
+                      <p className="text-sm text-destructive mt-1">{errors.theme.message}</p>
+                    )}
+                  </div>
+                  <div>
+                    <Label>Time Slot *</Label>
+                    <RadioGroup
+                      value={watchedValues.timeSlot}
+                      onValueChange={(value) => setValue("timeSlot", value as any)}
+                    >
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="morning" id="morning" />
+                        <Label htmlFor="morning" className="font-normal cursor-pointer">
+                          Morning (09:00 – 12:00)
+                        </Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="afternoon" id="afternoon" />
+                        <Label htmlFor="afternoon" className="font-normal cursor-pointer">
+                          Afternoon (13:30 – 16:30)
+                        </Label>
+                      </div>
+                    </RadioGroup>
+                    {errors.timeSlot && (
+                      <p className="text-sm text-destructive mt-1">{errors.timeSlot.message}</p>
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Step 3: Guest Count */}
+            {step === 3 && (
+              <div className="space-y-6">
+                <h3 className="text-2xl font-bold">Number of Guests</h3>
+                <div className="space-y-4">
+                  <div>
+                    <Label htmlFor="numChildren">Number of Children *</Label>
+                    <Input
+                      id="numChildren"
+                      type="number"
+                      {...register("numChildren")}
+                      placeholder="How many kids?"
+                    />
+                    {errors.numChildren && (
+                      <p className="text-sm text-destructive mt-1">{errors.numChildren.message}</p>
+                    )}
+                  </div>
+                  <div>
+                    <Label htmlFor="numAdults">Number of Adults *</Label>
+                    <Input
+                      id="numAdults"
+                      type="number"
+                      {...register("numAdults")}
+                      placeholder="How many adults?"
+                    />
+                    {errors.numAdults && (
+                      <p className="text-sm text-destructive mt-1">{errors.numAdults.message}</p>
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Step 4: Package Selection */}
+            {step === 4 && (
+              <div className="space-y-6">
+                <h3 className="text-2xl font-bold">Select Your Package</h3>
+                <RadioGroup
+                  value={watchedValues.package}
+                  onValueChange={(value) => setValue("package", value as any)}
+                  className="space-y-4"
+                >
+                  <Label
+                    htmlFor="option1"
+                    className="flex items-start space-x-3 p-4 border rounded-lg cursor-pointer hover:border-primary transition-colors"
+                  >
+                    <RadioGroupItem value="option1" id="option1" />
+                    <div className="flex-1">
+                      <div className="font-bold text-lg mb-1">Option 1 - R5,500</div>
+                      <div className="text-sm text-muted-foreground">
+                        1-15 kids • Party venue • 3h play • Meal & drink • Party pack • Tables & chairs
+                      </div>
+                    </div>
+                  </Label>
+                  <Label
+                    htmlFor="option2"
+                    className="flex items-start space-x-3 p-4 border rounded-lg cursor-pointer hover:border-primary transition-colors"
+                  >
+                    <RadioGroupItem value="option2" id="option2" />
+                    <div className="flex-1">
+                      <div className="font-bold text-lg mb-1">Option 2 - R8,500</div>
+                      <div className="text-sm text-muted-foreground">
+                        16-25 kids • Everything in Option 1 • Exclusive use of mini playtown
+                      </div>
+                    </div>
+                  </Label>
+                  <Label
+                    htmlFor="option3"
+                    className="flex items-start space-x-3 p-4 border rounded-lg cursor-pointer hover:border-primary transition-colors"
+                  >
+                    <RadioGroupItem value="option3" id="option3" />
+                    <div className="flex-1">
+                      <div className="font-bold text-lg mb-1">Option 3 - R10,000</div>
+                      <div className="text-sm text-muted-foreground">
+                        16-25 kids • Everything in Option 2 • Balloon arch • Cupcakes • Birthday gift • Themed centrepiece
+                      </div>
+                    </div>
+                  </Label>
+                </RadioGroup>
+                {errors.package && (
+                  <p className="text-sm text-destructive mt-1">{errors.package.message}</p>
+                )}
+              </div>
+            )}
+
+            {/* Step 5: Menu Selection */}
+            {step === 5 && (
+              <div className="space-y-6">
+                <h3 className="text-2xl font-bold">Menu Selection</h3>
+                <div className="space-y-4">
+                  <div>
+                    <Label>Kids Meal Choices * (Select one or more)</Label>
+                    <div className="space-y-2 mt-2">
+                      {["Chicken Nuggets & Chips", "Pizza", "Fish Fingers & Chips"].map((meal) => (
+                        <div key={meal} className="flex items-center space-x-2">
+                          <Checkbox
+                            id={meal}
+                            checked={watchedValues.kidsMeals?.includes(meal)}
+                            onCheckedChange={(checked) => {
+                              const current = watchedValues.kidsMeals || [];
+                              if (checked) {
+                                setValue("kidsMeals", [...current, meal]);
+                              } else {
+                                setValue(
+                                  "kidsMeals",
+                                  current.filter((m) => m !== meal)
+                                );
+                              }
+                            }}
+                          />
+                          <Label htmlFor={meal} className="font-normal cursor-pointer">
+                            {meal}
+                          </Label>
+                        </div>
+                      ))}
+                    </div>
+                    {errors.kidsMeals && (
+                      <p className="text-sm text-destructive mt-1">{errors.kidsMeals.message}</p>
+                    )}
+                  </div>
+                  <div>
+                    <Label>Adult Catering (Optional)</Label>
+                    <RadioGroup
+                      value={watchedValues.adultCatering}
+                      onValueChange={(value) => setValue("adultCatering", value as any)}
+                      className="space-y-2 mt-2"
+                    >
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="none" id="none" />
+                        <Label htmlFor="none" className="font-normal cursor-pointer">
+                          No adult catering
+                        </Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="option1" id="adult-option1" />
+                        <Label htmlFor="adult-option1" className="font-normal cursor-pointer">
+                          Option 1 - R100 pp (4 savoury + 4 sweet)
+                        </Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="option2" id="adult-option2" />
+                        <Label htmlFor="adult-option2" className="font-normal cursor-pointer">
+                          Option 2 - R130 pp (6 savoury + 4 sweet)
+                        </Label>
+                      </div>
+                    </RadioGroup>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Step 6: Review */}
+            {step === 6 && (
+              <div className="space-y-6">
+                <h3 className="text-2xl font-bold">Review Your Booking</h3>
+                <div className="space-y-3 bg-muted/30 p-4 rounded-lg">
+                  <div className="grid grid-cols-2 gap-2 text-sm">
+                    <span className="text-muted-foreground">Name:</span>
+                    <span className="font-medium">{watchedValues.fullName}</span>
+                    
+                    <span className="text-muted-foreground">Child:</span>
+                    <span className="font-medium">{watchedValues.childName} ({watchedValues.childAge} years)</span>
+                    
+                    <span className="text-muted-foreground">Date:</span>
+                    <span className="font-medium">
+                      {watchedValues.partyDate ? format(watchedValues.partyDate, "PPP") : ""}
+                    </span>
+                    
+                    <span className="text-muted-foreground">Time:</span>
+                    <span className="font-medium">
+                      {watchedValues.timeSlot === "morning" ? "09:00-12:00" : "13:30-16:30"}
+                    </span>
+                    
+                    <span className="text-muted-foreground">Theme:</span>
+                    <span className="font-medium">{watchedValues.theme}</span>
+                    
+                    <span className="text-muted-foreground">Guests:</span>
+                    <span className="font-medium">
+                      {watchedValues.numChildren} kids, {watchedValues.numAdults} adults
+                    </span>
+                    
+                    <span className="text-muted-foreground">Package:</span>
+                    <span className="font-medium">{watchedValues.package?.toUpperCase()}</span>
+                  </div>
+                </div>
+                
+                <div>
+                  <Label htmlFor="additionalInfo">Additional Information (Optional)</Label>
+                  <Textarea
+                    id="additionalInfo"
+                    {...register("additionalInfo")}
+                    placeholder="Any special requests or dietary requirements?"
+                    rows={4}
+                  />
+                </div>
+              </div>
+            )}
+
+            {/* Navigation Buttons */}
+            <div className="flex justify-between mt-8 pt-6 border-t">
+              {step > 1 && (
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => setStep(step - 1)}
+                >
+                  Back
+                </Button>
+              )}
+              <div className="ml-auto">
+                {step < totalSteps ? (
+                  <Button
+                    type="button"
+                    onClick={() => setStep(step + 1)}
+                    className="gap-2"
+                  >
+                    Next
+                    <ChevronRight size={16} />
+                  </Button>
+                ) : (
+                  <Button type="submit" className="gap-2">
+                    Submit Booking Request
+                    <Check size={16} />
+                  </Button>
+                )}
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </form>
+    </div>
+  );
+};
+
+export default BookingForm;
