@@ -52,7 +52,7 @@ const Contact = () => {
                   </div>
                   <h3 className="font-bold text-xl mb-2">Phone</h3>
                   <a
-                    href="tel:+27YOURPHONENUMBER"
+                    href="tel:+27847437159"
                     className="text-muted-foreground hover:text-primary transition-colors"
                   >
                     +27 [Your Number]
@@ -109,7 +109,7 @@ const Contact = () => {
                   Send us a message and we'll get back to you right away
                 </p>
                 <a
-                  href="https://wa.me/27YOURPHONENUMBER"
+                  href="https://wa.me/27847437159"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 px-8 py-4 bg-[#25D366] text-white rounded-lg hover:bg-[#20BA5A] transition-colors font-medium text-lg"

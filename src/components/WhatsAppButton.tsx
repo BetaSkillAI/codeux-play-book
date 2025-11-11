@@ -3,8 +3,7 @@ import { Button } from "@/components/ui/button";
 
 const WhatsAppButton = () => {
   const handleClick = () => {
-    // Replace with actual WhatsApp number
-    window.open("https://wa.me/27YOURPHONENUMBER", "_blank");
+    window.open("https://wa.me/27847437159", "_blank");
   };
 
   return (

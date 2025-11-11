@@ -66,7 +66,7 @@ const Footer = () => {
               </li>
               <li className="flex items-center gap-2 text-muted-foreground">
                 <Phone size={16} className="text-primary" />
-                WhatsApp: +27 [Your Number]
+                WhatsApp: 084 743 7159
               </li>
               <li className="flex items-center gap-2 text-muted-foreground">
                 <Mail size={16} className="text-primary" />

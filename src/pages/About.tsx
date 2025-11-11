@@ -10,13 +10,39 @@ const About = () => {
       <WhatsAppButton />
 
       {/* Hero Section */}
-      <section className="pt-32 pb-16 bg-gradient-to-b from-background to-muted/30">
+      <section className="relative pt-32 pb-16 overflow-hidden">
+        {/* Force-in component-scoped keyframes so animation cannot be stripped by build */}
+        <style>
+          {`
+            @keyframes about-blob-move-a {
+              0%,100% { transform: translate(0,0) scale(1); }
+              50%     { transform: translate(40px,-30px) scale(1.08); }
+            }
+            @keyframes about-blob-move-b {
+              0%,100% { transform: translate(0,0) scale(1); }
+              50%     { transform: translate(-50px,20px) scale(1.05); }
+            }
+            @keyframes about-blob-move-c {
+              0%,100% { transform: translate(0,0) scale(1); }
+              50%     { transform: translate(20px,40px) scale(1.1); }
+            }
+          `}
+        </style>
+        {/* Distinct animated blobs + extra floating shapes for visible motion */}
+        <div className="absolute inset-0 -z-10 bg-hero-blobs" />
+        {/* Make motion layers above overlay so they're clearly visible */}
+        <div className="absolute inset-0 z-0 pointer-events-none">
+          <div className="absolute top-10 left-10 w-72 h-72 bg-primary/60 rounded-full blur-3xl" style={{ animation: "about-blob-move-a 6s ease-in-out infinite" }} />
+          <div className="absolute top-20 right-24 w-64 h-64 bg-accent/60 rounded-full blur-3xl" style={{ animation: "about-blob-move-b 7s ease-in-out infinite" }} />
+          <div className="absolute bottom-10 left-1/3 w-80 h-80 bg-secondary/60 rounded-full blur-3xl" style={{ animation: "about-blob-move-c 8s ease-in-out infinite" }} />
+        </div>
+        <div className="absolute inset-0 -z-10 bg-black/60" />
         <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-5xl md:text-6xl font-bold mb-6">
-              About <span className="gradient-text">CO DEUX</span>
+          <div className="max-w-4xl mx-auto text-center relative z-20">
+            <h1 className="text-5xl md:text-6xl font-bold mb-6 text-white">
+              About CO DEUX
             </h1>
-            <p className="text-xl text-muted-foreground">
+            <p className="text-xl text-white/90">
               Where coffee and childhood come together
             </p>
           </div>
@@ -91,7 +117,7 @@ const About = () => {
                   Experience the warmth and joy of Co Deux for yourself
                 </p>
                 <a
-                  href="https://wa.me/27YOURPHONENUMBER"
+                  href="https://wa.me/27847437159"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors font-medium"

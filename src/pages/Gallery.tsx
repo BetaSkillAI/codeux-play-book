@@ -11,7 +11,23 @@ import playtownShops from "@/assets/playtown-shops.jpg";
 import foodQuiche from "@/assets/food-quiche.jpg";
 import foodCrepes from "@/assets/food-crepes.jpg";
 
+// Auto-include any additional images dropped into the root Images folder
+// Supported: .jpg, .jpeg, .png (any case)
+const extraLower = Object.values(
+  import.meta.glob("../../Images/*.{jpg,jpeg,png}", { eager: true, as: "url" })
+) as string[];
+const extraUpper = Object.values(
+  import.meta.glob("../../Images/*.{JPG,JPEG,PNG}", { eager: true, as: "url" })
+) as string[];
+const extraImageUrls = Array.from(new Set([...extraLower, ...extraUpper]));
+
 const galleryImages = [
+  // Extra images appear first
+  ...extraImageUrls.map((url) => ({
+    src: url,
+    title: "Event Highlight",
+    category: "Gallery",
+  })),
   {
     src: poolArea,
     title: "Pool Area",
@@ -66,13 +82,15 @@ const Gallery = () => {
       <WhatsAppButton />
 
       {/* Hero Section */}
-      <section className="pt-32 pb-16 bg-gradient-to-b from-background to-muted/30">
+      <section className="relative pt-32 pb-16 overflow-hidden">
+        {/* Static black overlay for strong readability */}
+        <div className="absolute inset-0 -z-10 bg-black/60" />
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-5xl md:text-6xl font-bold mb-6">
-              Our <span className="gradient-text">Gallery</span>
+            <h1 className="text-5xl md:text-6xl font-bold mb-6 text-white">
+              Our Gallery
             </h1>
-            <p className="text-xl text-muted-foreground">
+            <p className="text-xl text-white/90">
               Explore our beautiful spaces where magic happens every day
             </p>
           </div>
@@ -82,7 +100,7 @@ const Gallery = () => {
       {/* Gallery Grid */}
       <section className="py-16">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
             {galleryImages.map((image, index) => (
               <div
                 key={index}
@@ -120,7 +138,7 @@ const Gallery = () => {
               Book your spot or inquire about hosting your next event with us
             </p>
             <a
-              href="https://wa.me/27YOURPHONENUMBER"
+              href="https://wa.me/27847437159"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-8 py-4 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors font-medium text-lg"

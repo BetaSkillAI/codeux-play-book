@@ -3,6 +3,12 @@ import { Link, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
+// Resolve logo from project Images folder
+const appLogoUrl = new URL(
+  "../../Images/WhatsApp_Image_2025-11-10_at_12.38.27_PM-removebg-preview.png",
+  import.meta.url
+).href;
+
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
@@ -24,9 +30,11 @@ const Navbar = () => {
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
-            <div className="text-2xl md:text-3xl font-bold">
-              <span className="gradient-text">CO DEUX</span>
-            </div>
+            <img
+              src={appLogoUrl}
+              alt="CO DEUX"
+              className="h-10 md:h-12 w-auto object-contain"
+            />
           </Link>
 
           {/* Desktop Navigation */}

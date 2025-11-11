@@ -13,14 +13,30 @@ const Cafe = () => {
       <WhatsAppButton />
 
       {/* Hero Section */}
-      <section className="pt-32 pb-16 bg-gradient-to-b from-background to-muted/30">
+      <section className="relative pt-32 pb-16 overflow-hidden">
+        {/* Distinct wavy background + overlay */}
+        <style>
+          {`
+            @keyframes cafe-wave-pan {
+              0%   { transform: translateX(0) scale(1); opacity: 0.9; }
+              50%  { transform: translateX(-60px) scale(1.03); opacity: 1; }
+              100% { transform: translateX(0) scale(1); opacity: 0.9; }
+            }
+          `}
+        </style>
+        <div className="absolute inset-0 -z-10 bg-hero-waves" />
+        {/* Extra visible motion accents above the overlay */}
+        <div className="absolute inset-0 z-0 pointer-events-none">
+          <div className="absolute -top-10 left-1/4 w-96 h-96 rounded-full blur-3xl bg-primary/50" style={{ animation: "cafe-wave-pan 7s ease-in-out infinite" }} />
+          <div className="absolute bottom-0 right-1/5 w-80 h-80 rounded-full blur-3xl bg-accent/50" style={{ animation: "cafe-wave-pan 9s ease-in-out infinite reverse" }} />
+        </div>
+        <div className="absolute inset-0 -z-10 bg-black/60" />
         <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center">
-            <Coffee className="mx-auto mb-6 text-primary animate-pulse-soft" size={64} />
-            <h1 className="text-5xl md:text-6xl font-bold mb-6">
-              The <span className="gradient-text">Café</span>
+          <div className="max-w-4xl mx-auto text-center relative z-20">
+            <h1 className="text-5xl md:text-6xl font-bold mb-6 text-white">
+              The Café
             </h1>
-            <p className="text-xl text-muted-foreground">
+            <p className="text-xl text-white/90">
               Great coffee, freshly baked treats, and meals made with love
             </p>
           </div>
@@ -158,8 +174,8 @@ const Cafe = () => {
               <p className="text-muted-foreground mb-4">
                 ☕ All beverages are purchased from Co Deux Café & Playhouse
               </p>
-              <a
-                href="https://wa.me/27YOURPHONENUMBER"
+            <a
+              href="https://wa.me/27847437159"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors font-medium"

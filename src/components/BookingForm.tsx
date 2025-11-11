@@ -118,7 +118,7 @@ Adult Catering: ${getAdultCateringName(data.adultCatering)}
 ${data.additionalInfo ? `📝 *Additional Info:*\n${data.additionalInfo}` : ""}`;
 
     const encodedMessage = encodeURIComponent(message);
-    const whatsappUrl = `https://wa.me/27YOURPHONENUMBER?text=${encodedMessage}`;
+    const whatsappUrl = `https://wa.me/27847437159?text=${encodedMessage}`;
     window.open(whatsappUrl, "_blank");
   };
 
