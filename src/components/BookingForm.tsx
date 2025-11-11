@@ -25,13 +25,14 @@ const formSchema = z.object({
   partyDate: z.date({
     required_error: "Please select a date",
   }),
+  dayType: z.enum(["weekday", "weekend"]),
   theme: z.string().min(2, "Theme is required"),
   timeSlot: z.enum(["morning", "afternoon"], {
     required_error: "Please select a time slot",
   }),
   numChildren: z.string().min(1, "Number of children is required"),
   numAdults: z.string().min(1, "Number of adults is required"),
-  package: z.enum(["option1", "option2", "option3"], {
+  package: z.enum(["basic", "themed", "hightea"], {
     required_error: "Please select a package",
   }),
   kidsMeals: z.array(z.string()).min(1, "Select at least one kids meal"),
@@ -58,20 +59,28 @@ const BookingForm = () => {
     defaultValues: {
       kidsMeals: [],
       adultCatering: "none",
+      dayType: "weekday",
     },
   });
+
+  // Helper function to check if date is weekend
+  const isWeekend = (date: Date) => {
+    const day = date.getDay();
+    return day === 0 || day === 6; // Sunday = 0, Saturday = 6
+  };
 
   const watchedValues = watch();
   const totalSteps = 6;
 
-  const getPackageName = (pkg: string) => {
+  const getPackageName = (pkg: string, dayType?: string) => {
+    const isWeekendDay = dayType === "weekend";
     switch (pkg) {
-      case "option1":
-        return "Option 1 - R5,500 (1-15 kids)";
-      case "option2":
-        return "Option 2 - R8,500 (16-25 kids)";
-      case "option3":
-        return "Option 3 - R10,000 (16-25 kids, premium)";
+      case "basic":
+        return `Basic Party - ${isWeekendDay ? "Weekend R2,500" : "Weekday R2,000"}`;
+      case "themed":
+        return `Themed Party - ${isWeekendDay ? "Weekend R3,950" : "Weekday R3,500"}`;
+      case "hightea":
+        return "High Tea - 10 kids R2,950 / 20 kids R3,950";
       default:
         return pkg;
     }
@@ -109,7 +118,7 @@ Children: ${data.numChildren}
 Adults: ${data.numAdults}
 
 📦 *Package:*
-${getPackageName(data.package)}
+${getPackageName(data.package, data.dayType)}
 
 🍽️ *Meals:*
 Kids Meals: ${data.kidsMeals.join(", ")}
@@ -137,7 +146,8 @@ ${data.additionalInfo ? `📝 *Additional Info:*\n${data.additionalInfo}` : ""}`
     formData.append("Theme", data.theme);
     formData.append("Number of Children", data.numChildren);
     formData.append("Number of Adults", data.numAdults);
-    formData.append("Package", getPackageName(data.package));
+    formData.append("Package", getPackageName(data.package, data.dayType));
+    formData.append("Day Type", data.dayType === "weekend" ? "Weekend" : "Weekday");
     formData.append("Kids Meals", data.kidsMeals.join(", "));
     formData.append("Adult Catering", getAdultCateringName(data.adultCatering));
     if (data.additionalInfo) {
@@ -345,15 +355,48 @@ ${data.additionalInfo ? `📝 *Additional Info:*\n${data.additionalInfo}` : ""}`
                         <Calendar
                           mode="single"
                           selected={watchedValues.partyDate}
-                          onSelect={(date) => setValue("partyDate", date as Date)}
+                          onSelect={(date) => {
+                            if (date) {
+                              setValue("partyDate", date);
+                              // Auto-detect weekday/weekend
+                              setValue("dayType", isWeekend(date) ? "weekend" : "weekday");
+                            }
+                          }}
                           disabled={(date) => date < new Date()}
-                          initialFocus
                           className="pointer-events-auto"
                         />
                       </PopoverContent>
                     </Popover>
                     {errors.partyDate && (
                       <p className="text-sm text-destructive mt-1">{errors.partyDate.message}</p>
+                    )}
+                  </div>
+                  <div>
+                    <Label>Day Type *</Label>
+                    <RadioGroup
+                      value={watchedValues.dayType}
+                      onValueChange={(value) => setValue("dayType", value as any)}
+                    >
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="weekday" id="weekday" />
+                        <Label htmlFor="weekday" className="font-normal cursor-pointer">
+                          Weekday (Monday - Friday)
+                        </Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="weekend" id="weekend" />
+                        <Label htmlFor="weekend" className="font-normal cursor-pointer">
+                          Weekend (Saturday - Sunday)
+                        </Label>
+                      </div>
+                    </RadioGroup>
+                    {watchedValues.partyDate && (
+                      <p className="text-xs text-muted-foreground mt-2">
+                        {format(watchedValues.partyDate, "EEEE")} is automatically detected as a {isWeekend(watchedValues.partyDate) ? "weekend" : "weekday"}
+                      </p>
+                    )}
+                    {errors.dayType && (
+                      <p className="text-sm text-destructive mt-1">{errors.dayType.message}</p>
                     )}
                   </div>
                   <div>
@@ -437,38 +480,47 @@ ${data.additionalInfo ? `📝 *Additional Info:*\n${data.additionalInfo}` : ""}`
                   className="space-y-4"
                 >
                   <Label
-                    htmlFor="option1"
+                    htmlFor="basic"
                     className="flex items-start space-x-3 p-4 border rounded-lg cursor-pointer hover:border-primary transition-colors"
                   >
-                    <RadioGroupItem value="option1" id="option1" />
+                    <RadioGroupItem value="basic" id="basic" />
                     <div className="flex-1">
-                      <div className="font-bold text-lg mb-1">Option 1 - R5,500</div>
+                      <div className="font-bold text-lg mb-1">Basic Party</div>
+                      <div className="text-sm text-muted-foreground mb-1">
+                        Weekday: R2,000 • Weekend: R2,500
+                      </div>
                       <div className="text-sm text-muted-foreground">
-                        1-15 kids • Party venue • 3h play • Meal & drink • Party pack • Tables & chairs
+                        Up to 10 kids • Non-exclusive use • 2h play • Meal & drink • Tables & chairs • Decorations
                       </div>
                     </div>
                   </Label>
                   <Label
-                    htmlFor="option2"
+                    htmlFor="themed"
                     className="flex items-start space-x-3 p-4 border rounded-lg cursor-pointer hover:border-primary transition-colors"
                   >
-                    <RadioGroupItem value="option2" id="option2" />
+                    <RadioGroupItem value="themed" id="themed" />
                     <div className="flex-1">
-                      <div className="font-bold text-lg mb-1">Option 2 - R8,500</div>
+                      <div className="font-bold text-lg mb-1">Themed Party</div>
+                      <div className="text-sm text-muted-foreground mb-1">
+                        Weekday: R3,500 • Weekend: R3,950
+                      </div>
                       <div className="text-sm text-muted-foreground">
-                        16-25 kids • Everything in Option 1 • Exclusive use of mini playtown
+                        Up to 20 kids • Exclusive use • 2h play • Themed décor • Party packs • Cupcakes • Meal & drink • Free invitation
                       </div>
                     </div>
                   </Label>
                   <Label
-                    htmlFor="option3"
+                    htmlFor="hightea"
                     className="flex items-start space-x-3 p-4 border rounded-lg cursor-pointer hover:border-primary transition-colors"
                   >
-                    <RadioGroupItem value="option3" id="option3" />
+                    <RadioGroupItem value="hightea" id="hightea" />
                     <div className="flex-1">
-                      <div className="font-bold text-lg mb-1">Option 3 - R10,000</div>
+                      <div className="font-bold text-lg mb-1">High Tea</div>
+                      <div className="text-sm text-muted-foreground mb-1">
+                        10 kids: R2,950 • 20 kids: R3,950
+                      </div>
                       <div className="text-sm text-muted-foreground">
-                        16-25 kids • Everything in Option 2 • Balloon arch • Cupcakes • Birthday gift • Themed centrepiece
+                        Non-exclusive use • 2h play • High tea themed decorations • Tables & chairs
                       </div>
                     </div>
                   </Label>
@@ -576,7 +628,7 @@ ${data.additionalInfo ? `📝 *Additional Info:*\n${data.additionalInfo}` : ""}`
                     </span>
                     
                     <span className="text-muted-foreground">Package:</span>
-                    <span className="font-medium">{getPackageName(watchedValues.package || "")}</span>
+                    <span className="font-medium">{getPackageName(watchedValues.package || "", watchedValues.dayType)}</span>
 
                     <span className="text-muted-foreground">Kids Meals:</span>
                     <span className="font-medium">{watchedValues.kidsMeals?.join(", ") || "None"}</span>

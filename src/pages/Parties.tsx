@@ -63,7 +63,7 @@ const Parties = () => {
             </h2>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-              {/* Option 1 */}
+              {/* Basic Party Package */}
               <div className="relative bg-gradient-to-br from-secondary/20 to-secondary/5 p-6 rounded-2xl border-2 border-secondary hover-lift">
                 <a href="#book-your-event" className="absolute top-4 right-4">
                   <Button size="sm" className="bg-white/90 text-foreground hover:bg-white ring-2 ring-primary/60 ring-offset-2 ring-offset-transparent animate-flash-cta">
@@ -72,18 +72,20 @@ const Parties = () => {
                 </a>
                 <div className="flex items-center gap-2 mb-4">
                   <Users className="text-secondary" />
-                  <h3 className="font-bold text-2xl">Option 1</h3>
+                  <h3 className="font-bold text-2xl">Basic Party</h3>
                 </div>
-                <div className="text-4xl font-bold text-secondary mb-6">R5,500</div>
-                <p className="text-sm text-muted-foreground mb-4">1 – 15 Children</p>
+                <div className="text-sm text-muted-foreground mb-2">Non-exclusive use</div>
+                <div className="text-3xl font-bold text-secondary mb-1">Weekday: R2,000</div>
+                <div className="text-3xl font-bold text-secondary mb-4">Weekend: R2,500</div>
+                <p className="text-sm text-muted-foreground mb-4">Up to 10 Children</p>
                 <ul className="space-y-2 text-sm">
                   {[
-                    "Party venue area",
-                    "3h play per child",
-                    "Meal + drink per child",
-                    "Party pack per child",
-                    "White tables & chairs",
-                    "Table settings in your colors",
+                    "2 hours of play in mini town & outdoor area",
+                    "Designated party venue area",
+                    "White kids table & cross back chairs",
+                    "White table cloth",
+                    "Decorated tables with balloons & bunting",
+                    "Kids meal with juice/cold drink",
                   ].map((item) => (
                     <li key={item} className="flex items-start gap-2">
                       <Check size={16} className="text-secondary mt-0.5 flex-shrink-0" />
@@ -91,9 +93,12 @@ const Parties = () => {
                     </li>
                   ))}
                 </ul>
+                <p className="text-xs text-muted-foreground mt-4 italic">
+                  Ideal for budget-friendly simple celebrations
+                </p>
               </div>
 
-              {/* Option 2 */}
+              {/* Themed Party Package */}
               <div className="relative bg-gradient-to-br from-primary/20 to-primary/5 p-6 rounded-2xl border-2 border-primary hover-lift transform scale-105">
                 <a href="#book-your-event" className="absolute top-4 right-4">
                   <Button size="sm" className="bg-white/90 text-foreground hover:bg-white ring-2 ring-primary/60 ring-offset-2 ring-offset-transparent animate-flash-cta">
@@ -102,14 +107,23 @@ const Parties = () => {
                 </a>
                 <div className="flex items-center gap-2 mb-4">
                   <Gift className="text-primary" />
-                  <h3 className="font-bold text-2xl">Option 2</h3>
+                  <h3 className="font-bold text-2xl">Themed Party</h3>
                 </div>
-                <div className="text-4xl font-bold text-primary mb-6">R8,500</div>
-                <p className="text-sm text-muted-foreground mb-4">16 – 25 Children</p>
+                <div className="text-sm text-muted-foreground mb-2">Exclusive use of mini town</div>
+                <div className="text-3xl font-bold text-primary mb-1">Weekday: R3,500</div>
+                <div className="text-3xl font-bold text-primary mb-4">Weekend: R3,950</div>
+                <p className="text-sm text-muted-foreground mb-4">Up to 20 Children</p>
                 <ul className="space-y-2 text-sm">
                   {[
-                    "Everything in Option 1",
-                    "Exclusive mini playtown use",
+                    "2 hours of play in mini town & outdoor area",
+                    "Exclusive use for your guests only",
+                    "White kids table & cross back chairs",
+                    "White table cloth",
+                    "Themed décor with table settings",
+                    "Party packs for each child",
+                    "Cupcake for each kid",
+                    "Kids meal with juice/cold drink",
+                    "Free printable invitation (electronic)",
                   ].map((item) => (
                     <li key={item} className="flex items-start gap-2">
                       <Check size={16} className="text-primary mt-0.5 flex-shrink-0" />
@@ -120,9 +134,12 @@ const Parties = () => {
                 <div className="mt-4 px-3 py-1 bg-primary/20 rounded-full text-xs font-medium text-primary inline-block">
                   POPULAR
                 </div>
+                <p className="text-xs text-muted-foreground mt-4 italic">
+                  Perfect for Pinterest parties without stress
+                </p>
               </div>
 
-              {/* Option 3 */}
+              {/* High Tea Package */}
               <div className="relative bg-gradient-to-br from-accent/20 to-accent/5 p-6 rounded-2xl border-2 border-accent hover-lift">
                 <a href="#book-your-event" className="absolute top-4 right-4">
                   <Button size="sm" className="bg-white/90 text-foreground hover:bg-white ring-2 ring-primary/60 ring-offset-2 ring-offset-transparent animate-flash-cta">
@@ -131,17 +148,20 @@ const Parties = () => {
                 </a>
                 <div className="flex items-center gap-2 mb-4">
                   <Cake className="text-accent" />
-                  <h3 className="font-bold text-2xl">Option 3</h3>
+                  <h3 className="font-bold text-2xl">High Tea</h3>
                 </div>
-                <div className="text-4xl font-bold text-accent mb-6">R10,000</div>
-                <p className="text-sm text-muted-foreground mb-4">16 – 25 Children</p>
+                <div className="text-sm text-muted-foreground mb-2">Non-exclusive use</div>
+                <div className="text-3xl font-bold text-accent mb-1">10 kids: R2,950</div>
+                <div className="text-3xl font-bold text-accent mb-4">20 kids: R3,950</div>
+                <p className="text-sm text-muted-foreground mb-4">10 or 20 Children</p>
                 <ul className="space-y-2 text-sm">
                   {[
-                    "Everything in Option 2",
-                    "Balloon arch",
-                    "Cupcakes",
-                    "Birthday gift",
-                    "Themed centrepiece",
+                    "2 hours of play in mini town & outdoor area",
+                    "Designated party venue area",
+                    "White kids table & cross back chairs",
+                    "White table cloth",
+                    "Decorated tables with balloons & bunting",
+                    "High tea themed table decorations",
                   ].map((item) => (
                     <li key={item} className="flex items-start gap-2">
                       <Check size={16} className="text-accent mt-0.5 flex-shrink-0" />
@@ -172,7 +192,7 @@ const Parties = () => {
         </div>
       </section>
 
-      {/* Meal Options (moved below the booking section) */}
+      {/* Meal Options & Add-ons */}
       <section className="py-16">
         <div className="container mx-auto px-4 max-w-5xl">
           <Accordion type="single" collapsible className="mb-4">
