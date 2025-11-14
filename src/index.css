@@ -8,50 +8,49 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Warm, playful color palette for Co Deux */
-    --background: 35 40% 96%;
-    --foreground: 25 30% 25%;
+    /* Co Deux Official Color Palette */
+    --background: 0 0% 98%;
+    --foreground: 298 21% 25%;
 
     --card: 0 0% 100%;
-    --card-foreground: 25 30% 25%;
+    --card-foreground: 298 21% 25%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 25 30% 25%;
+    --popover-foreground: 298 21% 25%;
 
-    /* Coral/Peach primary for warmth */
-    --primary: 12 88% 65%;
+    /* Dusty Pink/Rose - Primary */
+    --primary: 327 42% 68%;
     --primary-foreground: 0 0% 100%;
 
-    /* Soft teal for playfulness */
-    --secondary: 180 45% 75%;
-    --secondary-foreground: 25 30% 25%;
+    /* Mint Green - Secondary */
+    --secondary: 164 44% 73%;
+    --secondary-foreground: 298 21% 25%;
 
-    /* Dusty rose for sweetness */
-    --accent: 340 60% 80%;
-    --accent-foreground: 25 30% 25%;
+    /* Light Pastel Pink - Accent */
+    --accent: 327 75% 85%;
+    --accent-foreground: 298 21% 46%;
 
-    --muted: 35 20% 92%;
-    --muted-foreground: 25 20% 50%;
+    --muted: 327 20% 92%;
+    --muted-foreground: 298 15% 45%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 35 25% 88%;
-    --input: 35 25% 88%;
-    --ring: 12 88% 65%;
+    --border: 327 25% 88%;
+    --input: 327 25% 88%;
+    --ring: 327 42% 68%;
 
     --radius: 0.75rem;
 
     /* Custom tokens for Co Deux */
-    --cream: 40 40% 95%;
-    --warm-white: 35 30% 98%;
-    --coral-light: 12 70% 85%;
-    --teal-soft: 180 40% 85%;
-    --rose-dusty: 340 50% 88%;
+    --pastel-pink: 327 75% 85%;
+    --dusty-rose: 327 42% 68%;
+    --muted-purple: 298 21% 46%;
+    --mint-green: 164 44% 73%;
 
     /* Gradients */
-    --gradient-hero: linear-gradient(135deg, hsl(12 88% 65%) 0%, hsl(340 60% 80%) 100%);
-    --gradient-soft: linear-gradient(180deg, hsl(35 40% 96%) 0%, hsl(0 0% 100%) 100%);
+    --gradient-hero: linear-gradient(135deg, hsl(327 42% 68%) 0%, hsl(327 75% 85%) 100%);
+    --gradient-soft: linear-gradient(180deg, hsl(327 75% 95%) 0%, hsl(0 0% 100%) 100%);
 
     /* Animations */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);

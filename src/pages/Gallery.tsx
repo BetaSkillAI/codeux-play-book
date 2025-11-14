@@ -1,79 +1,21 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
-import poolArea from "@/assets/pool-area.jpg";
-import playhouseInterior from "@/assets/playhouse-interior.jpg";
-import cafeStation from "@/assets/cafe-station.jpg";
-import partyTent from "@/assets/party-tent.jpg";
-import toyCar from "@/assets/toy-car.jpg";
-import groceryStore from "@/assets/grocery-store.jpg";
-import playtownShops from "@/assets/playtown-shops.jpg";
-import foodQuiche from "@/assets/food-quiche.jpg";
-import foodCrepes from "@/assets/food-crepes.jpg";
 
-// Auto-include any additional images dropped into the root Images folder
-// Supported: .jpg, .jpeg, .png (any case)
-const extraLower = Object.values(
-  import.meta.glob("../../Images/*.{jpg,jpeg,png}", { eager: true, as: "url" })
+// Auto-include all images from the Gallery folder
+const galleryImagesLower = Object.values(
+  import.meta.glob("../../Images/Gallery/*.{jpg,jpeg,png}", { eager: true, as: "url" })
 ) as string[];
-const extraUpper = Object.values(
-  import.meta.glob("../../Images/*.{JPG,JPEG,PNG}", { eager: true, as: "url" })
+const galleryImagesUpper = Object.values(
+  import.meta.glob("../../Images/Gallery/*.{JPG,JPEG,PNG}", { eager: true, as: "url" })
 ) as string[];
-const extraImageUrls = Array.from(new Set([...extraLower, ...extraUpper]));
+const galleryImageUrls = Array.from(new Set([...galleryImagesLower, ...galleryImagesUpper]));
 
-const galleryImages = [
-  // Extra images appear first
-  ...extraImageUrls.map((url) => ({
-    src: url,
-    title: "Event Highlight",
-    category: "Gallery",
-  })),
-  {
-    src: poolArea,
-    title: "Pool Area",
-    category: "Swimming",
-  },
-  {
-    src: playhouseInterior,
-    title: "Pretend Playhouse",
-    category: "Playhouse",
-  },
-  {
-    src: cafeStation,
-    title: "Café Station",
-    category: "Playhouse",
-  },
-  {
-    src: partyTent,
-    title: "Party Setup",
-    category: "Parties",
-  },
-  {
-    src: toyCar,
-    title: "Play Area",
-    category: "Playhouse",
-  },
-  {
-    src: groceryStore,
-    title: "Grocery Store",
-    category: "Playhouse",
-  },
-  {
-    src: playtownShops,
-    title: "Mini Town",
-    category: "Playhouse",
-  },
-  {
-    src: foodQuiche,
-    title: "Quiches",
-    category: "Café",
-  },
-  {
-    src: foodCrepes,
-    title: "Sweet Crepes",
-    category: "Café",
-  },
-];
+const galleryImages = galleryImageUrls.map((url, index) => ({
+  src: url,
+  title: `Gallery Image ${index + 1}`,
+  category: "Gallery",
+}));
 
 const Gallery = () => {
   return (
