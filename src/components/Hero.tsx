@@ -20,8 +20,8 @@ const Hero = () => {
       <Slideshow images={heroImages} intervalMs={6000} fadeMs={1200} />
       {/* Animated gradient layer for extra depth */}
       <div className="absolute inset-0 -z-10 bg-animated-header opacity-40" />
-      {/* Overlay to improve text contrast */}
-      <div className="absolute inset-0 -z-10 bg-[#D48BA8]/75" />
+      {/* Overlay to improve text contrast - gradient from mint to transparent */}
+      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-[#9FD8C0]/80 via-[#9FD8C0]/60 to-[#9FD8C0]/40" />
       {/* Playful decorations */}
       <div className="playful-decorations z-5">
         <div className="balloon animate-balloon-float" style={{ top: '10%', left: '5%' }}>🎈</div>
@@ -89,12 +89,12 @@ const Hero = () => {
           </div>
 
           {/* Opening Hours */}
-          <div className="mt-12 p-6 bg-black/90 rounded-2xl border border-transparent animate-in fade-in slide-in-from-bottom-7 duration-1000 delay-500">
-            <p className="text-sm font-medium text-white/90 mb-2">Opening Hours</p>
+          <div className="mt-12 p-6 bg-[#D48BA8]/0 rounded-2xl border-2 border-white/80 backdrop-blur-sm animate-in fade-in slide-in-from-bottom-7 duration-1000 delay-500">
+            <p className="text-sm font-medium text-white mb-2" style={{ textShadow: '1px 1px 4px rgba(0,0,0,0.6)' }}>Opening Hours</p>
             <div className="flex flex-wrap justify-center gap-4 text-sm text-white">
-              <span className="">Fri–Tue: 10am–4pm</span>
-              <span className="text-white/60">•</span>
-              <span className="font-semibold">Sat: 9am–5pm</span>
+              <span className="" style={{ textShadow: '1px 1px 4px rgba(0,0,0,0.6)' }}>Fri–Tue: 10am–4pm</span>
+              <span className="text-white/80">•</span>
+              <span className="font-semibold" style={{ textShadow: '1px 1px 4px rgba(0,0,0,0.6)' }}>Sat: 9am–5pm</span>
             </div>
           </div>
         </div>

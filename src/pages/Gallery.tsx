@@ -75,7 +75,7 @@ const Gallery = () => {
           <div className="absolute top-1/3 right-15 text-6xl opacity-25 animate-balloon-float-slow" style={{ animationDelay: '2s' }}>✨</div>
         </div>
         
-        <div className="absolute inset-0 -z-10 bg-[#D48BA8]/70" />
+        <div className="absolute inset-0 -z-10 bg-gradient-to-b from-[#9FD8C0]/80 via-[#9FD8C0]/60 to-[#9FD8C0]/40" />
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center relative z-20">
             <h1 className="text-5xl md:text-6xl font-bold mb-6 text-white" style={{ textShadow: '2px 2px 8px rgba(0,0,0,0.5), 0 0 20px rgba(0,0,0,0.3)' }}>
@@ -101,27 +101,22 @@ const Gallery = () => {
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 md:gap-6">
             {galleryImages.map((image, index) => (
-              <div
+              <a
                 key={index}
-                className="group relative overflow-hidden rounded-xl sm:rounded-2xl hover-lift bg-card shadow-md"
+                href={image.src}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group relative overflow-hidden rounded-xl sm:rounded-2xl hover-lift bg-card shadow-md cursor-pointer block"
               >
                 <div className="aspect-square overflow-hidden">
                   <img
                     src={image.src}
                     alt={image.title}
                     loading="lazy"
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                   />
                 </div>
-                <div className="absolute inset-0 bg-gradient-to-t from-foreground/80 via-foreground/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4 md:p-6">
-                    <span className="inline-block px-2 sm:px-3 py-1 bg-primary text-primary-foreground text-xs font-medium rounded-full mb-1 sm:mb-2">
-                      {image.category}
-                    </span>
-                    <h3 className="text-white text-sm sm:text-base md:text-xl font-bold">{image.title}</h3>
-                  </div>
-                </div>
-              </div>
+              </a>
             ))}
           </div>
         </div>

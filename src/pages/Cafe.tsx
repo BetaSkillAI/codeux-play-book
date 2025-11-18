@@ -49,7 +49,7 @@ const Cafe = () => {
           <div className="absolute top-1/3 right-18 text-6xl opacity-25 animate-balloon-float-slow" style={{ animationDelay: '2s' }}>🥧</div>
         </div>
         
-        <div className="absolute inset-0 -z-10 bg-[#D48BA8]/70" />
+        <div className="absolute inset-0 -z-10 bg-gradient-to-b from-[#9FD8C0]/80 via-[#9FD8C0]/60 to-[#9FD8C0]/40" />
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center relative z-20">
             <h1 className="text-5xl md:text-6xl font-bold mb-6 text-white" style={{ textShadow: '2px 2px 8px rgba(0,0,0,0.5), 0 0 20px rgba(0,0,0,0.3)' }}>
