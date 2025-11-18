@@ -106,14 +106,13 @@ const Gallery = () => {
                 href={image.src}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group relative overflow-hidden rounded-xl sm:rounded-2xl hover-lift bg-card shadow-md cursor-pointer block"
+                className="relative overflow-hidden rounded-xl sm:rounded-2xl bg-card shadow-md cursor-pointer block transition-transform duration-200 hover:scale-[1.02]"
               >
                 <div className="aspect-square overflow-hidden">
                   <img
                     src={image.src}
                     alt={image.title}
-                    loading="lazy"
-                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    className="w-full h-full object-cover"
                   />
                 </div>
               </a>

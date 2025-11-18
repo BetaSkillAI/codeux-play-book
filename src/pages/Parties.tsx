@@ -1,4 +1,4 @@
-import { PartyPopper, Gift, Users, Cake, Check } from "lucide-react";
+import { Gift, Users, Cake, Check } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
@@ -41,6 +41,7 @@ const Parties = () => {
             />
           ))}
         </div>
+        
         {/* Playful party decorations */}
         <div className="playful-decorations z-25">
           <div className="balloon animate-balloon-float" style={{ top: '8%', left: '5%' }}>🎈</div>
@@ -52,13 +53,23 @@ const Parties = () => {
           <div className="toy animate-toy-spin" style={{ top: '40%', left: '8%', animationDelay: '0s' }}>🎪</div>
         </div>
         
-        <div className="absolute inset-0 -z-10 bg-black/60" />
+        {/* Animated cartoon background */}
+        <div className="absolute inset-0 z-25 pointer-events-none overflow-hidden">
+          <div className="absolute top-10 left-8 text-6xl opacity-30 animate-toy-spin" style={{ animationDuration: '20s' }}>🎉</div>
+          <div className="absolute top-24 right-12 text-5xl opacity-25 animate-toy-bounce" style={{ animationDelay: '1s' }}>🎊</div>
+          <div className="absolute bottom-16 left-16 text-7xl opacity-20 animate-toy-spin" style={{ animationDuration: '25s', animationDelay: '2s' }}>🎪</div>
+          <div className="absolute bottom-12 right-24 text-6xl opacity-25 animate-toy-bounce" style={{ animationDelay: '3s' }}>🎁</div>
+          <div className="absolute top-1/2 left-12 text-5xl opacity-20 animate-balloon-float">🎂</div>
+          <div className="absolute top-1/3 right-20 text-6xl opacity-25 animate-balloon-float-slow" style={{ animationDelay: '2s' }}>🍰</div>
+        </div>
+        
+        <div className="absolute inset-0 -z-10 bg-gradient-to-b from-[#9FD8C0]/80 via-[#9FD8C0]/60 to-[#9FD8C0]/40" />
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center relative z-30">
-            <h1 className="text-5xl md:text-6xl font-bold mb-6 text-white">
+            <h1 className="text-5xl md:text-6xl font-bold mb-6 text-white" style={{ textShadow: '2px 2px 8px rgba(0,0,0,0.5), 0 0 20px rgba(0,0,0,0.3)' }}>
               Parties & Events
             </h1>
-            <p className="text-xl text-white/90">
+            <p className="text-xl text-white" style={{ textShadow: '1px 1px 4px rgba(0,0,0,0.5)' }}>
               Budget-friendly party packages perfect for creating magical memories
             </p>
           </div>
@@ -182,8 +193,6 @@ const Parties = () => {
                 </ul>
               </div>
             </div>
-
-            
           </div>
         </div>
       </section>
