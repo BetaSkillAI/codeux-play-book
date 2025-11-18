@@ -99,25 +99,36 @@ const Gallery = () => {
         </div>
         
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 md:gap-6">
-            {galleryImages.map((image, index) => (
-              <a
-                key={index}
-                href={image.src}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="relative overflow-hidden rounded-xl sm:rounded-2xl bg-card shadow-md cursor-pointer block transition-transform duration-200 hover:scale-[1.02]"
-              >
-                <div className="aspect-square overflow-hidden">
+          {galleryImages.length === 0 ? (
+            <p className="text-center text-muted-foreground">No images found in gallery</p>
+          ) : (
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 md:gap-6">
+              {galleryImages.map((image, index) => (
+                <a
+                  key={index}
+                  href={image.src}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block rounded-xl sm:rounded-2xl overflow-hidden bg-white shadow-md"
+                  style={{ width: '100%', paddingBottom: '100%', position: 'relative' }}
+                >
                   <img
                     src={image.src}
                     alt={image.title}
-                    className="w-full h-full object-cover"
+                    style={{
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      display: 'block'
+                    }}
                   />
-                </div>
-              </a>
-            ))}
-          </div>
+                </a>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
