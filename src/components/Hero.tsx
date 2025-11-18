@@ -21,7 +21,7 @@ const Hero = () => {
       {/* Animated gradient layer for extra depth */}
       <div className="absolute inset-0 -z-10 bg-animated-header opacity-40" />
       {/* Overlay to improve text contrast */}
-      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-black/90 via-black/70 to-black/90" />
+      <div className="absolute inset-0 -z-10 bg-[#D48BA8]/75" />
       {/* Playful decorations */}
       <div className="playful-decorations z-5">
         <div className="balloon animate-balloon-float" style={{ top: '10%', left: '5%' }}>🎈</div>
@@ -43,16 +43,16 @@ const Hero = () => {
               <Heart className="text-accent" size={28} />
               <Coffee className="text-secondary animate-pulse-soft" size={32} />
             </div>
-            <h1 className="text-5xl md:text-7xl font-bold mb-4 text-white">
+            <h1 className="text-5xl md:text-7xl font-bold mb-4 text-white" style={{ textShadow: '3px 3px 10px rgba(0,0,0,0.6), 0 0 25px rgba(0,0,0,0.4)' }}>
               CO DEUX
             </h1>
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-2">
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-2" style={{ textShadow: '2px 2px 8px rgba(0,0,0,0.5), 0 0 20px rgba(0,0,0,0.3)' }}>
               Café & Pretend Playhouse
             </h2>
           </div>
 
           {/* Tagline */}
-          <p className="text-xl md:text-2xl text-white mb-8 animate-in fade-in slide-in-from-bottom-5 duration-1000 delay-200">
+          <p className="text-xl md:text-2xl text-white mb-8 animate-in fade-in slide-in-from-bottom-5 duration-1000 delay-200" style={{ textShadow: '1px 1px 6px rgba(0,0,0,0.5)' }}>
             Where kids play, imagine & explore while parents relax!
           </p>
 
