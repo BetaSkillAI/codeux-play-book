@@ -30,6 +30,15 @@ const Cafe = () => {
           <div className="absolute -top-10 left-1/4 w-96 h-96 rounded-full blur-3xl bg-primary/50" style={{ animation: "cafe-wave-pan 7s ease-in-out infinite" }} />
           <div className="absolute bottom-0 right-1/5 w-80 h-80 rounded-full blur-3xl bg-accent/50" style={{ animation: "cafe-wave-pan 9s ease-in-out infinite reverse" }} />
         </div>
+        {/* Playful cafe decorations */}
+        <div className="playful-decorations z-25">
+          <div className="balloon animate-balloon-float" style={{ top: '10%', left: '6%' }}>🎈</div>
+          <div className="balloon animate-balloon-float-slow" style={{ top: '15%', right: '10%', animationDelay: '2s' }}>🎈</div>
+          <div className="toy animate-toy-bounce" style={{ top: '25%', right: '18%', animationDelay: '1.5s' }}>☕</div>
+          <div className="toy animate-toy-bounce" style={{ bottom: '30%', left: '15%', animationDelay: '3s' }}>🧁</div>
+          <div className="toy animate-toy-spin" style={{ top: '50%', right: '8%', animationDelay: '0s' }}>🍰</div>
+        </div>
+        
         <div className="absolute inset-0 -z-10 bg-black/60" />
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center relative z-20">

@@ -22,12 +22,16 @@ const Hero = () => {
       <div className="absolute inset-0 -z-10 bg-animated-header opacity-40" />
       {/* Overlay to improve text contrast */}
       <div className="absolute inset-0 -z-10 bg-gradient-to-b from-black/90 via-black/70 to-black/90" />
-      {/* Animated Background Balloons */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 left-10 w-16 h-20 bg-accent/20 rounded-full animate-float-slow" />
-        <div className="absolute top-40 right-20 w-12 h-16 bg-secondary/20 rounded-full animate-float" />
-        <div className="absolute bottom-40 left-1/4 w-14 h-18 bg-primary/20 rounded-full animate-float-slow" />
-        <div className="absolute top-60 right-1/3 w-10 h-14 bg-rose-dusty/30 rounded-full animate-float" />
+      {/* Playful decorations */}
+      <div className="playful-decorations z-5">
+        <div className="balloon animate-balloon-float" style={{ top: '10%', left: '5%' }}>🎈</div>
+        <div className="balloon animate-balloon-float-slow" style={{ top: '15%', right: '8%', animationDelay: '2s' }}>🎈</div>
+        <div className="balloon animate-balloon-float" style={{ top: '60%', left: '8%', animationDelay: '4s' }}>🎈</div>
+        <div className="balloon animate-balloon-float-slow" style={{ bottom: '15%', right: '10%', animationDelay: '1s' }}>🎈</div>
+        <div className="toy animate-toy-bounce" style={{ top: '25%', right: '15%', animationDelay: '1.5s' }}>🧸</div>
+        <div className="toy animate-toy-bounce" style={{ bottom: '30%', left: '12%', animationDelay: '3s' }}>🚂</div>
+        <div className="toy animate-toy-spin" style={{ top: '50%', left: '10%', animationDelay: '0s' }}>⚽</div>
+        <div className="toy animate-toy-bounce" style={{ top: '70%', right: '20%', animationDelay: '2.5s' }}>🎨</div>
       </div>
 
       <div className="container mx-auto px-4 relative z-10">

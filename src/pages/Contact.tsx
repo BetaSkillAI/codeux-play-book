@@ -11,9 +11,17 @@ const Contact = () => {
       <WhatsAppButton />
 
       {/* Hero Section */}
-      <section className="pt-32 pb-16 bg-gradient-to-b from-background to-muted/30">
+      <section className="relative pt-32 pb-16 bg-gradient-to-b from-background to-muted/30 overflow-hidden">
+        {/* Playful contact decorations */}
+        <div className="playful-decorations">
+          <div className="balloon animate-balloon-float" style={{ top: '10%', left: '8%' }}>🎈</div>
+          <div className="balloon animate-balloon-float-slow" style={{ top: '15%', right: '10%', animationDelay: '1.5s' }}>🎈</div>
+          <div className="toy animate-toy-bounce" style={{ top: '30%', right: '15%', animationDelay: '1s' }}>📞</div>
+          <div className="toy animate-toy-bounce" style={{ bottom: '20%', left: '12%', animationDelay: '2.5s' }}>✉️</div>
+        </div>
+        
         <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center">
+          <div className="max-w-4xl mx-auto text-center relative z-10">
             <h1 className="text-5xl md:text-6xl font-bold mb-6">
               Get in <span className="gradient-text">Touch</span>
             </h1>

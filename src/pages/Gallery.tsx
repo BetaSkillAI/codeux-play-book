@@ -25,10 +25,49 @@ const Gallery = () => {
 
       {/* Hero Section */}
       <section className="relative pt-32 pb-16 overflow-hidden">
-        {/* Static black overlay for strong readability */}
-        <div className="absolute inset-0 -z-10 bg-black/60" />
+        {/* Animated background */}
+        <style>
+          {`
+            @keyframes gallery-sparkle {
+              0%, 100% { 
+                transform: translate(0, 0) scale(1) rotate(0deg);
+                opacity: 0.7;
+              }
+              25% { 
+                transform: translate(20px, -20px) scale(1.1) rotate(90deg);
+                opacity: 1;
+              }
+              50% { 
+                transform: translate(-15px, -40px) scale(0.9) rotate(180deg);
+                opacity: 0.8;
+              }
+              75% { 
+                transform: translate(25px, -25px) scale(1.05) rotate(270deg);
+                opacity: 0.9;
+              }
+            }
+          `}
+        </style>
+        <div className="absolute inset-0 -z-10 bg-hero-stripes" />
+        <div className="absolute inset-0 z-0 pointer-events-none">
+          <div className="absolute top-20 left-10 w-64 h-64 bg-primary/50 rounded-full blur-3xl" style={{ animation: "gallery-sparkle 8s ease-in-out infinite" }} />
+          <div className="absolute top-32 right-20 w-72 h-72 bg-accent/50 rounded-full blur-3xl" style={{ animation: "gallery-sparkle 10s ease-in-out infinite reverse" }} />
+          <div className="absolute bottom-20 left-1/3 w-80 h-80 bg-secondary/50 rounded-full blur-3xl" style={{ animation: "gallery-sparkle 12s ease-in-out infinite" }} />
+        </div>
+        
+        {/* Playful decorations */}
+        <div className="playful-decorations">
+          <div className="balloon animate-balloon-float" style={{ top: '10%', left: '5%' }}>🎈</div>
+          <div className="balloon animate-balloon-float-slow" style={{ top: '15%', right: '8%', animationDelay: '2s' }}>🎈</div>
+          <div className="balloon animate-balloon-float" style={{ top: '60%', left: '10%', animationDelay: '4s' }}>🎈</div>
+          <div className="balloon animate-balloon-float-slow" style={{ top: '70%', right: '15%', animationDelay: '1s' }}>🎈</div>
+          <div className="toy animate-toy-bounce" style={{ top: '25%', right: '20%', animationDelay: '1s' }}>🧸</div>
+          <div className="toy animate-toy-bounce" style={{ bottom: '30%', left: '15%', animationDelay: '3s' }}>🚂</div>
+        </div>
+        
+        <div className="absolute inset-0 -z-10 bg-black/50" />
         <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center">
+          <div className="max-w-4xl mx-auto text-center relative z-20">
             <h1 className="text-5xl md:text-6xl font-bold mb-6 text-white">
               Our Gallery
             </h1>
@@ -40,27 +79,36 @@ const Gallery = () => {
       </section>
 
       {/* Gallery Grid */}
-      <section className="py-16">
+      <section className="py-16 relative">
+        {/* Background decorations */}
+        <div className="playful-decorations">
+          <div className="balloon animate-balloon-float" style={{ top: '20%', left: '3%', animationDelay: '0.5s' }}>🎈</div>
+          <div className="balloon animate-balloon-float-slow" style={{ top: '50%', right: '5%', animationDelay: '2.5s' }}>🎈</div>
+          <div className="toy animate-toy-spin" style={{ top: '10%', right: '10%', animationDelay: '0s' }}>⚽</div>
+          <div className="toy animate-toy-bounce" style={{ bottom: '15%', left: '8%', animationDelay: '2s' }}>🎨</div>
+        </div>
+        
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 md:gap-6">
             {galleryImages.map((image, index) => (
               <div
                 key={index}
-                className="group relative overflow-hidden rounded-2xl hover-lift bg-card"
+                className="group relative overflow-hidden rounded-xl sm:rounded-2xl hover-lift bg-card shadow-md"
               >
                 <div className="aspect-square overflow-hidden">
                   <img
                     src={image.src}
                     alt={image.title}
+                    loading="lazy"
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                   />
                 </div>
                 <div className="absolute inset-0 bg-gradient-to-t from-foreground/80 via-foreground/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <div className="absolute bottom-0 left-0 right-0 p-6">
-                    <span className="inline-block px-3 py-1 bg-primary text-primary-foreground text-xs font-medium rounded-full mb-2">
+                  <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4 md:p-6">
+                    <span className="inline-block px-2 sm:px-3 py-1 bg-primary text-primary-foreground text-xs font-medium rounded-full mb-1 sm:mb-2">
                       {image.category}
                     </span>
-                    <h3 className="text-white text-xl font-bold">{image.title}</h3>
+                    <h3 className="text-white text-sm sm:text-base md:text-xl font-bold">{image.title}</h3>
                   </div>
                 </div>
               </div>

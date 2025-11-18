@@ -41,6 +41,17 @@ const Parties = () => {
             />
           ))}
         </div>
+        {/* Playful party decorations */}
+        <div className="playful-decorations z-25">
+          <div className="balloon animate-balloon-float" style={{ top: '8%', left: '5%' }}>🎈</div>
+          <div className="balloon animate-balloon-float-slow" style={{ top: '12%', right: '8%', animationDelay: '1.5s' }}>🎈</div>
+          <div className="balloon animate-balloon-float" style={{ top: '65%', left: '7%', animationDelay: '3s' }}>🎈</div>
+          <div className="balloon animate-balloon-float-slow" style={{ top: '70%', right: '10%', animationDelay: '0.5s' }}>🎈</div>
+          <div className="toy animate-toy-bounce" style={{ top: '20%', right: '15%', animationDelay: '1s' }}>🎂</div>
+          <div className="toy animate-toy-bounce" style={{ bottom: '25%', left: '12%', animationDelay: '2.5s' }}>🎁</div>
+          <div className="toy animate-toy-spin" style={{ top: '40%', left: '8%', animationDelay: '0s' }}>🎪</div>
+        </div>
+        
         <div className="absolute inset-0 -z-10 bg-black/60" />
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center relative z-30">

@@ -36,6 +36,15 @@ const About = () => {
           <div className="absolute top-20 right-24 w-64 h-64 bg-accent/60 rounded-full blur-3xl" style={{ animation: "about-blob-move-b 7s ease-in-out infinite" }} />
           <div className="absolute bottom-10 left-1/3 w-80 h-80 bg-secondary/60 rounded-full blur-3xl" style={{ animation: "about-blob-move-c 8s ease-in-out infinite" }} />
         </div>
+        {/* Playful about decorations */}
+        <div className="playful-decorations z-25">
+          <div className="balloon animate-balloon-float" style={{ top: '12%', left: '8%' }}>🎈</div>
+          <div className="balloon animate-balloon-float-slow" style={{ top: '18%', right: '12%', animationDelay: '1.8s' }}>🎈</div>
+          <div className="balloon animate-balloon-float" style={{ bottom: '20%', left: '10%', animationDelay: '3.5s' }}>🎈</div>
+          <div className="toy animate-toy-bounce" style={{ top: '30%', right: '15%', animationDelay: '1.2s' }}>🧸</div>
+          <div className="toy animate-toy-bounce" style={{ bottom: '35%', left: '18%', animationDelay: '2.8s' }}>☕</div>
+        </div>
+        
         <div className="absolute inset-0 -z-10 bg-black/60" />
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center relative z-20">
