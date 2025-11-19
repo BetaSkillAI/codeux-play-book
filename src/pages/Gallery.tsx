@@ -142,9 +142,10 @@ const Gallery = () => {
                           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                         />
                         {/* Gradient overlay on hover */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                           <div className="absolute bottom-4 left-4 right-4">
-                            <p className="text-white font-bold text-lg">Photo {item.index + 1}</p>
+                            <p className="text-white font-bold text-lg">Co Deux Memories</p>
+                            <p className="text-white/80 text-sm">Photo {item.index + 1} of {galleryImageUrls.length}</p>
                           </div>
                         </div>
                         {/* Highlight current image */}
@@ -163,9 +164,14 @@ const Gallery = () => {
                   <div className="relative aspect-[4/3] bg-white rounded-2xl overflow-hidden shadow-2xl">
                     <img
                       src={galleryImageUrls[currentIndex]}
-                      alt={`Gallery ${currentIndex + 1}`}
+                      alt={`Co Deux Gallery Photo ${currentIndex + 1}`}
                       className="w-full h-full object-cover"
                     />
+                    {/* Label for mobile */}
+                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
+                      <p className="text-white font-bold text-lg">Co Deux Memories</p>
+                      <p className="text-white/80 text-sm">Photo {currentIndex + 1} of {galleryImageUrls.length}</p>
+                    </div>
                   </div>
                 </div>
 
