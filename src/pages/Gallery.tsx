@@ -89,7 +89,7 @@ const Gallery = () => {
       </section>
 
       {/* Gallery Grid */}
-      <section className="py-16 relative">
+      <section style={{ padding: '4rem 0', position: 'relative' }}>
         {/* Background decorations */}
         <div className="playful-decorations">
           <div className="balloon animate-balloon-float" style={{ top: '20%', left: '3%', animationDelay: '0.5s' }}>🎈</div>
@@ -98,31 +98,41 @@ const Gallery = () => {
           <div className="toy animate-toy-bounce" style={{ bottom: '15%', left: '8%', animationDelay: '2s' }}>🎨</div>
         </div>
         
-        <div className="container mx-auto px-4">
+        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1rem' }}>
           {galleryImages.length === 0 ? (
-            <p className="text-center text-muted-foreground">No images found in gallery</p>
+            <p style={{ textAlign: 'center' }}>No images found in gallery</p>
           ) : (
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 md:gap-6">
+            <div style={{ 
+              display: 'grid', 
+              gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))',
+              gap: '1rem'
+            }}>
               {galleryImages.map((image, index) => (
                 <a
                   key={index}
                   href={image.src}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block rounded-xl sm:rounded-2xl overflow-hidden bg-white shadow-md"
-                  style={{ width: '100%', paddingBottom: '100%', position: 'relative' }}
+                  style={{
+                    display: 'block',
+                    borderRadius: '12px',
+                    overflow: 'hidden',
+                    backgroundColor: 'white',
+                    boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+                    position: 'relative',
+                    paddingBottom: '100%'
+                  }}
                 >
                   <img
                     src={image.src}
-                    alt={image.title}
+                    alt={`Gallery ${index + 1}`}
                     style={{
                       position: 'absolute',
                       top: 0,
                       left: 0,
                       width: '100%',
                       height: '100%',
-                      objectFit: 'cover',
-                      display: 'block'
+                      objectFit: 'cover'
                     }}
                   />
                 </a>
