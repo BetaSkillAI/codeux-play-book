@@ -45,7 +45,9 @@ const Contact = () => {
                   </div>
                   <h3 className="font-bold text-xl mb-2">Location</h3>
                   <p className="text-muted-foreground">
-                    Midrand, South Africa
+                    126 Plantation Rd<br />
+                    Blue Hills AH, Midrand<br />
+                    Johannesburg
                   </p>
                 </div>
               </CardContent>
@@ -63,7 +65,7 @@ const Contact = () => {
                     href="tel:+27847437159"
                     className="text-muted-foreground hover:text-primary transition-colors"
                   >
-                    +27 [Your Number]
+                    084 743 7159
                   </a>
                 </div>
               </CardContent>

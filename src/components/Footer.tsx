@@ -60,13 +60,13 @@ const Footer = () => {
           <div>
             <h4 className="font-bold mb-4">Contact</h4>
             <ul className="space-y-2 text-sm">
-              <li className="flex items-center gap-2 text-muted-foreground">
-                <MapPin size={16} className="text-primary" />
-                Midrand, South Africa
+              <li className="flex items-start gap-2 text-muted-foreground">
+                <MapPin size={16} className="text-primary flex-shrink-0 mt-1" />
+                <span>126 Plantation Rd<br />Blue Hills AH, Midrand<br />Johannesburg</span>
               </li>
               <li className="flex items-center gap-2 text-muted-foreground">
                 <Phone size={16} className="text-primary" />
-                WhatsApp: 084 743 7159
+                084 743 7159
               </li>
               <li className="flex items-center gap-2 text-muted-foreground">
                 <Mail size={16} className="text-primary" />
